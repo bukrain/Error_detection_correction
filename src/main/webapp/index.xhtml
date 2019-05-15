@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <h:outputScript library="javax.faces" name="jsf.js" target="head"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"/>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <h:form id="form">
+        <table>
+            <tr>
+                <td>
+                    <h:outputLabel value="Message" for="ascii_message"/>
+                </td>
+                <td>
+                    <h:inputText id="ascii_message" value="#{checkSumBean.ascii_message}">
+                        <f:ajax event="keyup"
+                                render="message polymonial message_with_crc message_with_hamming remainder"
+                                listener="#{checkSumBean.calcHammingAndCrc}"/>
+                    </h:inputText>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Message bits" for="message"/>
+                </td>
+                <td class="output">
+                    <h:outputText id="message" styleClass="table" value="#{checkSumBean.message}"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h:outputLabel value="CRC type" for="crc_type"/>
+                </td>
+                <td>
+                    <h:selectOneMenu id="crc_type" value="#{crcBean.crc_type}">
+                        <f:selectItems value="#{crcBean.crc_types}"/>
+                        <f:ajax event="change" render="polymonial message_with_crc message_with_hamming remainder"
+                                listener="#{checkSumBean.calcHammingAndCrc}"/>
+                        <f:ajax event="change" render="message_with_errors index_of_error ascii_with_errors message_after_correction ascii_after_correction message_have_errors"
+                                listener="#{checkSumBean.calcHammingAndCrcError}" onevent="callHighlightDiff"/>
+                    </h:selectOneMenu>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h:outputLabel value="CRC" for="polymonial"/>
+                </td>
+                <td class="output">
+                    <h:outputText id="polymonial" value="#{crcBean.polymonial}"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Remainder" for="remainder"/>
+
+                </td>
+                <td class="output">
+                    <h:outputText id="remainder" value="#{crcBean.crcChecksum}"/>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Message with CRC" for="message_with_crc"/>
+
+                </td>
+                <td class="output">
+                    <h:outputText id="message_with_crc" value="#{crcBean.messageWithCrc}"/>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Message with Hamming" for="message_with_hamming"/>
+
+                </td>
+                <td class="output">
+                    <h:outputText id="message_with_hamming" value="#{hammingBean.messageWithHammingCode}"/>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Error" for="errors"/>
+                </td>
+                <td>
+                    <h:inputText id="errors" value="#{hammingBean.hammingErrors}">
+                        <f:ajax event="keyup"
+                                render="message_with_errors index_of_error ascii_with_errors message_after_correction ascii_after_correction message_have_errors"
+                                listener="#{checkSumBean.calcHammingAndCrcError}" onevent="callHighlightDiff"/>
+                    </h:inputText>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Index of error" for="index_of_error"/>
+                </td>
+                <td class="output">
+                    <h:outputText id="index_of_error" value="#{hammingBean.strIndexOfError}"/>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Message with errors" for="message_with_errors"/>
+                </td>
+                <td class="output">
+                    <h:outputText id="message_with_errors" value="#{hammingBean.messageWithErrors}"/>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Decoded message with errors" for="ascii_with_errors"/>
+                </td>
+                <td class="output">
+                    <h:outputText id="ascii_with_errors" value="#{hammingBean.asciiErrored}"/>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Message after correction" for="message_after_correction"/>
+                </td>
+                <td class="output">
+                    <h:outputText id="message_after_correction" value="#{hammingBean.messageAfterCorrection}"/>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Decoded message after correction" for="ascii_after_correction"/>
+                </td>
+                <td class="output">
+                    <h:outputText id="ascii_after_correction" value="#{hammingBean.asciiAfterCorrection}"/>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <h:outputLabel value="Does CRC found error" for="message_have_errors"/>
+                </td>
+                <td class="output">
+                    <h:outputText id="message_have_errors" value="#{checkSumBean.messageHaveError}"/>
+                </td>
+            </tr>
+
+
+        </table>
+    </h:form>
+</h:body>
+
+<h:outputScript library="js" name="highlight.js"/>
+</html>

@@ -1,0 +1,50 @@
+html{
+    background-color: #00001e;
+    color: white;
+}
+
+.section{
+    display: table;
+    border-spacing: 1rem 0.2rem;
+}
+
+.section .row{
+    display: table-row;
+    #word-break: break-all;
+}
+
+.row > *{
+    display: table-cell;
+}
+
+.highlight{
+    color : red;
+}
+
+.highlight2{
+    color : lawngreen;
+}
+
+.highlight3{
+    color: #00fff2;;
+}
+
+.output {
+    table-layout: fixed;
+    width: 80%;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+td{
+    word-break: break-all;
+    padding-top: 5px;
+    padding-left: 10px;
+    border-bottom: 5px solid darkolivegreen;
+}
+
+span{
+    letter-spacing: 5px
+}
